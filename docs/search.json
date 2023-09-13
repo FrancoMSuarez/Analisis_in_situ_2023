@@ -1,0 +1,9 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales",
+    "section": "",
+    "text": "Introducción\nEn la era de la información, el acceso a datos satelitales de alta resolución espacial y temporal ha revolucionado la forma en que comprendemos y gestionamos nuestro entorno. La constante evolución de la tecnología espacial ha permitido que una gran cantidad de información sea capturada desde el espacio, ofreciendo una perspectiva sin precedentes de nuestro planeta. La disponibilidad de datos satelitales de alta calidad se ha convertido en una herramienta fundamental para una amplia gama de aplicaciones, desde la monitorización ambiental y la gestión de desastres hasta la planificación urbana y la agricultura de precisión.\nAdemás, la capacidad de cómputo disponible en la actualidad ha abierto nuevas posibilidades en el análisis de datos satelitales. Esta alta capacidad de computo nos permite procesar grandes volúmenes de información, podemos obtener información más detallada y actualizada. Esto ha impulsado avances significativos en la predicción de fenómenos naturales, la gestión y planificación de recursos naturales.\nA lo largo de este análisis, exploraremos en detalle el acceso y la descarga de datos climáticos disponibles en la plataforma Google Earth Engine mediante su conexión con r. Abordaremos ademas algunas técnicas de selección de variables para la construcción de modelos predictivos y el posterior ajuste de los mismos.\n\n\nContenidos\n1.Tutorial para instalar el paquete “rgee”. 2. Descarga de variables climaticas. 3. Metodos Seleccion de Variables. 4. Ajuste de Modelos Predictivos."
+  }
+]
