@@ -9,8 +9,8 @@ website:
     title: false
     logo: '/imagenes/logo_gab_2023.png'
     logo-alt: 'XXVII Reunión Científica GAB' 
-    background: '#ffff'
-    foreground: '#e09c6c'
+    #background: '#ffff'
+    #foreground: '#e09c6c'
     left:
       - href: index.qmd
         text: Inicio
@@ -18,17 +18,29 @@ website:
         text: Instalacion <br> rgee
       - href: descarga.qmd
         text: Descarga de variables climaticas <br> desde Google Earth Engine
+      - href: Seleccion de variables.qmd
+        text: Seleccíon de variables
+      
       
   page-footer:
-    background: "#c7d78b"
+    #background: "#c7d78b"
     right:
       - text: "&#169; 2023 Franco Suarez, Juan Manuel Fiore <span xmlns:cc=\"http://creativecommons.org/ns#\" xmlns:dct=\"http://purl.org/dc/terms/\">licensed under <a href=\"http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1\" target=\"_blank\" rel=\"license noopener noreferrer\" style=\"display:inline-block;\">CC BY 4.0<img style=\"height:18px!important;margin-left:3px;vertical-align:text-bottom;\" src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1\"><img style=\"height:18px!important;margin-left:3px;vertical-align:text-bottom;\" src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1\"></a></p>"
       
 format:
   html:
-    theme: Simplex
+    theme: Minty
     css: styles.css
     toc: true
+
+lang: es
+citations-hover: true
+
+knitr:
+  opts_chunk: 
+    #collapse: true
+    comment: "##"
+    results: "hold"
 
 editor: visual
 

@@ -6,11 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Franco Suarez">
-<meta name="author" content="Juan Manuel Fiore">
-<meta name="author" content="Cecilia Bruno">
 
-<title>Analisis in situ: Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales - Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales</title>
+<title>Analisis in situ: Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales - Selección de Variables</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
@@ -97,7 +94,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Descarga de variables climaticas <br> desde Google Earth Engine</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Seleccion de variables.html" rel="" target="">
+    <a class="nav-link active" href="./Seleccion de variables.html" rel="" target="" aria-current="page">
  <span class="menu-text">Seleccíon de variables</span></a>
   </li>  
 </ul>
@@ -112,42 +109,21 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Contenidos</h2>
-   
-  <ul>
-  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción">Introducción</a></li>
-  <li><a href="#contenidos" id="toc-contenidos" class="nav-link" data-scroll-target="#contenidos">Contenidos</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales</h1>
+<h1 class="title">Selección de Variables</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Autores/as</div>
-    <div class="quarto-title-meta-contents">
-             <p>Franco Suarez </p>
-             <p>Juan Manuel Fiore </p>
-             <p>Cecilia Bruno </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Fecha de publicación</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">octubre, 2023</p>
-    </div>
-  </div>
   
     
   </div>
@@ -155,21 +131,26 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="introducción" class="level1">
-<h1>Introducción</h1>
-<p>En la era de la información, el acceso a datos satelitales de alta resolución espacial y temporal ha revolucionado la forma en que comprendemos y gestionamos nuestro entorno. La constante evolución de la tecnología espacial ha permitido que una gran cantidad de información sea capturada desde el espacio, ofreciendo una perspectiva sin precedentes de nuestro planeta. La disponibilidad de datos satelitales de alta calidad se ha convertido en una herramienta fundamental para una amplia gama de aplicaciones, desde la monitorización ambiental y la gestión de desastres hasta la planificación urbana y la agricultura de precisión.</p>
-<p>Además, la capacidad de cómputo disponible en la actualidad ha abierto nuevas posibilidades en el análisis de datos satelitales. Esta alta capacidad de computo nos permite procesar grandes volúmenes de información, podemos obtener información más detallada y actualizada. Esto ha impulsado avances significativos en la predicción de fenómenos naturales, la gestión y planificación de recursos naturales.</p>
-<p>A lo largo de este análisis, exploraremos en detalle el acceso y la descarga de datos climáticos disponibles en la plataforma Google Earth Engine mediante su conexión con r. Abordaremos ademas algunas técnicas de selección de variables para la construcción de modelos predictivos y el posterior ajuste de los mismos.</p>
-</section>
-<section id="contenidos" class="level1">
-<h1>Contenidos</h1>
-<p>1.Tutorial para instalar el paquete “rgee”.</p>
-<p>2. Descarga de variables climaticas.</p>
-<p>3. Metodos Seleccion de Variables.</p>
-<p>4. Ajuste de Modelos Predictivos.</p>
+<div class="justify">
+<p>El proceso de selección de variables es una etapa fundamental en el ajuste de modelos estadísticos y aprendizaje automático</p>
+<p>Algunas de las razones por las cuales es una etapa importante al momento de generar modelos son:</p>
+</div>
+<div class="justify">
+<ol type="1">
+<li><p><strong>Podría mejorar de la precisión del modelo</strong>: Al eliminar variables irrelevantes o ruido, el modelado puede centrarse en las relaciones más importantes en los datos.</p></li>
+<li><p><strong>Reducción de la complejidad del modelo</strong>: Demasiadas variables en un modelo puede llevar a un sobreajuste (overfitting), y a un modelo que no generaliza bien a nuevos datos. Ademas, siempre prima el principio de la “Parsimonia”, es decir que entre varias explicaciones posibles para un fenómeno, la más simple es la preferida.</p></li>
+<li><p><strong>Ahorro de recursos</strong>: Al eliminar variables innecesarias, se reducen los recursos computacionales y el tiempo necesario para entrenar y aplicar el modelo.</p></li>
+<li><p><strong>Interpretabilidad</strong>: En muchos casos, tener un modelo con un conjunto más pequeño de variables facilita la interpretación de los resultados. Un modelo más sencillo y interpretable puede ser más útil en situaciones donde es importante comprender las relaciones entre los datos.</p></li>
+<li><p><strong>Evitar multicolinealidad</strong>: La multicolinealidad es una situación en la que dos o más variables independientes están altamente correlacionadas entre sí. Esto puede afectar la estabilidad de los coeficientes estimados.</p></li>
+</ol>
+</div>
+<div class="justify">
+<p>Existen diferentes técnicas para la selección de variables, que van desde métodos estadísticos simples como la correlación y las pruebas de hipótesis, hasta métodos más avanzados como la eliminación recursiva de características, la selección basada en modelos y el uso de algoritmos de aprendizaje automático especializados. La elección de la técnica adecuada depende del problema específico y de los datos disponibles.</p>
+<p>En este tutorial abordaremos el método de selección conocido como <strong><em>BORUTA.</em></strong></p>
+<p>Este es un algoritmo de tipo wraper, el cual se basa en Random Forest, pero es capas de trabajar otros métodos de clasificación que pueda aplicar medidas de importancia a las variables. El funcionamiento de Boruta, se basa en crear, un numero determinado, de copias aleatorias de las variables originales a las cuales denomina <strong>VARIABLES SOMBRAS</strong>. El paso siguiente es ajustar un modelo de clasificación (RF) en la base extendida y aplica una medida de importancia a las variables, el valor por defecto es Precisión de disminución media. EN cada interación que realiza el algoritmo verifica si una variable tiene mayor importancia que la mejor de las variables sombras y elimina a las que se consideran poco importantes, el algoritmo se detiene cuando todas las variables son clasificadas o cuando se alcanzo el limite de iteraciones.</p>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

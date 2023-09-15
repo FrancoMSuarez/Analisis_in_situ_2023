@@ -9,5 +9,10 @@
 
 .level1{text-align: justify;}
 
+.text{text-align: justify;}
 
+{css, echo = FALSE}
+.justify {
+  text-align: justify !important
+}
 

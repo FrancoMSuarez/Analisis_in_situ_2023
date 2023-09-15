@@ -3,3 +3,10 @@ title: 'Instrucciones para instalar "rgee"'
 ---
 
 aca va el tutorial de Juan
+
+```{r}
+
+print("Juan Manuel Fiore")
+
+
+```
