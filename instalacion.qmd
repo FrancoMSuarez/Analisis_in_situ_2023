@@ -2,12 +2,11 @@
 title: 'Instrucciónes para instalar "rgee"'
 ---
 
-<<<<<<< HEAD
 Previamente a instalar rgee:
 
 <li>tener instalado <a href='https://www.python.org/'>Python</a> con la libreria GEE.</li>
 
-<li> Tener creada una cuenta en <a href='https://earthengine.google.com/' >Google Earth Engine</a>. </li>
+<li>Tener creada una cuenta en <a href='https://earthengine.google.com/' >Google Earth Engine</a>.</li>
 
 Abrir Rstudio e instalar los paquetes necesarios
 
@@ -71,14 +70,4 @@ Verificamos si esta todo correcto corriendo la siguente linea
 ee$String('Autenticado correctametne desde EE')$getInfo()
 ```
 
-Si aparece un error referido SDK Cloud este <a href='https://www.youtube.com/watch?v=1-k6wNL2hlo&ab_channel=RicardoDalagnol'>video</a> podria ser de ayuda
-=======
-aca va el tutorial de Juan
-
-```{r}
-
-print("Juan Manuel Fiore")
-
-
-```
->>>>>>> 3b09bef05f43106a9c54dd756152703382c166ee
+Si aparece un error con Cloud SKD este <a href= 'https://www.youtube.com/watch?v=1-k6wNL2hlo&ab_channel=RicardoDalagnol'>video</a> podria ser de ayuda
