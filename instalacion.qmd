@@ -70,4 +70,5 @@ Verificamos si esta todo correcto corriendo la siguente linea
 ee$String('Autenticado correctametne desde EE')$getInfo()
 ```
 
-Si aparece un error con Cloud SKD este <a href= 'https://www.youtube.com/watch?v=1-k6wNL2hlo&ab_channel=RicardoDalagnol'>video</a> podria ser de ayuda
+Si aparece un error con Cloud SKD este <a href= 'https://www.youtube.com/watch?v=1-k6wNL2hlo&ab_channel=RicardoDalagnol'>video</a> podria ser de ayuda.
+
