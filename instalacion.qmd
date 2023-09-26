@@ -2,6 +2,7 @@
 title: 'Instrucciónes para instalar "rgee"'
 ---
 
+<<<<<<< HEAD
 Previamente a instalar rgee:
 
 <li>tener instalado <a href='https://www.python.org/'>Python</a> con la libreria GEE.</li>
@@ -71,3 +72,13 @@ ee$String('Autenticado correctametne desde EE')$getInfo()
 ```
 
 Si aparece un error referido SDK Cloud este <a href='https://www.youtube.com/watch?v=1-k6wNL2hlo&ab_channel=RicardoDalagnol'>video</a> podria ser de ayuda
+=======
+aca va el tutorial de Juan
+
+```{r}
+
+print("Juan Manuel Fiore")
+
+
+```
+>>>>>>> 3b09bef05f43106a9c54dd756152703382c166ee

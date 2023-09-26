@@ -1,0 +1,36 @@
+---
+title: "Selección de Variables"
+format:
+  html:
+    theme: Minty
+    css: styles.css
+    toc: true
+    
+---
+
+:::{.justify}
+El proceso de selección de variables es una etapa fundamental en el ajuste de modelos estadísticos y aprendizaje automático
+
+Algunas de las razones por las cuales es una etapa importante al momento de generar modelos son:
+:::
+
+:::{.justify}
+1.  **Podría mejorar de la precisión del modelo**: Al eliminar variables irrelevantes o ruido, el modelado puede centrarse en las relaciones más importantes en los datos.
+
+
+2.  **Reducción de la complejidad del modelo**: Demasiadas variables en un modelo puede llevar a un sobreajuste (overfitting), y a un modelo que no generaliza bien a nuevos datos. Ademas, siempre prima el principio de la "Parsimonia", es decir que entre varias explicaciones posibles para un fenómeno, la más simple es la preferida.
+
+3.  **Ahorro de recursos**: Al eliminar variables innecesarias, se reducen los recursos computacionales y el tiempo necesario para entrenar y aplicar el modelo.
+
+4.  **Interpretabilidad**: En muchos casos, tener un modelo con un conjunto más pequeño de variables facilita la interpretación de los resultados. Un modelo más sencillo y interpretable puede ser más útil en situaciones donde es importante comprender las relaciones entre los datos.
+
+5.  **Evitar multicolinealidad**: La multicolinealidad es una situación en la que dos o más variables independientes están altamente correlacionadas entre sí. Esto puede afectar la estabilidad de los coeficientes estimados.
+:::
+
+:::{.justify}
+Existen diferentes técnicas para la selección de variables, que van desde métodos estadísticos simples como la correlación y las pruebas de hipótesis, hasta métodos más avanzados como la eliminación recursiva de características, la selección basada en modelos y el uso de algoritmos de aprendizaje automático especializados. La elección de la técnica adecuada depende del problema específico y de los datos disponibles.
+
+En este tutorial abordaremos el método de selección conocido como ***BORUTA.***
+
+Este es un algoritmo de tipo wraper, el cual se basa en Random Forest, pero es capas de trabajar otros métodos de clasificación que pueda aplicar medidas de importancia a las variables. El funcionamiento de Boruta, se basa en crear, un numero determinado, de copias aleatorias de las variables originales a las cuales denomina **VARIABLES SOMBRAS**. El paso siguiente es ajustar un modelo de clasificación (RF) en la base extendida y aplica una medida de importancia a las variables, el valor por defecto es Precisión de disminución media. EN cada interación que realiza el algoritmo verifica si una variable tiene mayor importancia que la mejor de las variables sombras y elimina a las que se consideran poco importantes, el algoritmo se detiene cuando todas las variables son clasificadas o cuando se alcanzo el limite de iteraciones.
+:::
