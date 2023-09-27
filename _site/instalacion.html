@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Analisis in situ: Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales - Instrucciones para instalar “rgee”</title>
+<title>Analisis in situ: Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales - Instrucciónes para instalar “rgee”</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Instrucciones para instalar “rgee”</h1>
+<h1 class="title">Instrucciónes para instalar “rgee”</h1>
 </div>
 
 
@@ -165,13 +165,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>aca va el tutorial de Juan</p>
+<p>Previamente a instalar rgee:</p>
+<li>
+tener instalado <a href="https://www.python.org/">Python</a> con la libreria GEE.
+</li>
+<li>
+Tener creada una cuenta en <a href="https://earthengine.google.com/">Google Earth Engine</a>.
+</li>
+<p>Abrir Rstudio e instalar los paquetes necesarios</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Juan Manuel Fiore"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "Juan Manuel Fiore"</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'sf'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'reticulate'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'remotes'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Instalar rgee utilizando el paqute reomotes</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reticulate'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">'r-spatial/rgee'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Utilizar la funcion py_dicover_config() para ver la version de python que utiliza</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">py_discover_config</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Verificar la dirección de Python</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">import</span>(<span class="st">'sys'</span>)<span class="sc">$</span>executable</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>crea un ambiente isolado de Python con todas las dependencias</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_install</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Aqui, luego de un rato , nos va a pedir que aceptemos los cambios escribimos: Y, en la consola y le damos aceptar. Luego de que se haya instalado, reiniciar la computadora.</p>
+<p>Una vez reiniciada establecemos el directorio al ambiente de rgee en la computadora</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">use_python</span>(<span class="st">'direccion del ambiente de Python a utlizar'</span>, <span class="at">required =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">py_config</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cargamos el paquete rgee</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Inicializamos el google earth engine, cuando inicializamos por primera vez R nos pedira abrir una ventana del navegador para pedirnos que nos autentiquemos con nuetras credenciales de google earth engine. Rellenamos y le damos a next, una vez logeados nos dara una contraseña, la cual debemos copiarla y pegarla en la consola que nos estara pidiendo como enter earth egnine authenticaiton</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Verificamos si esta todo correcto corriendo la siguente linea</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ee<span class="sc">$</span><span class="fu">String</span>(<span class="st">'Autenticado correctametne desde EE'</span>)<span class="sc">$</span><span class="fu">getInfo</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si aparece un error con Cloud SKD este <a href="https://www.youtube.com/watch?v=1-k6wNL2hlo&amp;ab_channel=RicardoDalagnol">video</a> podria ser de ayuda.</p>
 
 
 

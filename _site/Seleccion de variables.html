@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -109,7 +143,13 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#ejemplo" id="toc-ejemplo" class="nav-link active" data-scroll-target="#ejemplo">Ejemplo</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -147,10 +187,615 @@ ul.task-list li input[type="checkbox"] {
 <div class="justify">
 <p>Existen diferentes técnicas para la selección de variables, que van desde métodos estadísticos simples como la correlación y las pruebas de hipótesis, hasta métodos más avanzados como la eliminación recursiva de características, la selección basada en modelos y el uso de algoritmos de aprendizaje automático especializados. La elección de la técnica adecuada depende del problema específico y de los datos disponibles.</p>
 <p>En este tutorial abordaremos el método de selección conocido como <strong><em>BORUTA.</em></strong></p>
-<p>Este es un algoritmo de tipo wraper, el cual se basa en Random Forest, pero es capas de trabajar otros métodos de clasificación que pueda aplicar medidas de importancia a las variables. El funcionamiento de Boruta, se basa en crear, un numero determinado, de copias aleatorias de las variables originales a las cuales denomina <strong>VARIABLES SOMBRAS</strong>. El paso siguiente es ajustar un modelo de clasificación (RF) en la base extendida y aplica una medida de importancia a las variables, el valor por defecto es Precisión de disminución media. EN cada interación que realiza el algoritmo verifica si una variable tiene mayor importancia que la mejor de las variables sombras y elimina a las que se consideran poco importantes, el algoritmo se detiene cuando todas las variables son clasificadas o cuando se alcanzo el limite de iteraciones.</p>
+<p>Este es un algoritmo de tipo wraper, el cual se basa en Random Forest, pero es capas de trabajar otros métodos de clasificación que pueda aplicar medidas de importancia a las variables. El funcionamiento de Boruta, se basa en crear, un numero determinado, de copias aleatorias de las variables originales a las cuales denomina <strong>VARIABLES SOMBRAS</strong>. El paso siguiente es ajustar un modelo de clasificación (RF) en la base extendida y aplica una medida de importancia a las variables, el valor por defecto es Precisión de disminución media. En cada interación que realiza el algoritmo verifica si una variable tiene mayor importancia que la mejor de las variables sombras y elimina a las que se consideran poco importantes, el algoritmo se detiene cuando todas las variables son clasificadas o cuando se alcanzo el limite de iteraciones.</p>
+</div>
+<section id="ejemplo" class="level1">
+<h1>Ejemplo</h1>
+<div class="justify">
+<p>Cargamos la base de datos y visualizamos las primeras observaciones</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"datos/datos_con_variables.txt"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sep =</span> <span class="st">'</span><span class="sc">\t</span><span class="st">'</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">header =</span> T) </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(datos))</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Prevalencia</th>
+<th style="text-align: right;">Humedad.relativa__mean</th>
+<th style="text-align: right;">Temperatura__mean</th>
+<th style="text-align: right;">Viento__mean</th>
+<th style="text-align: right;">Humedad.relativa__mean.1</th>
+<th style="text-align: right;">Temperatura__mean.1</th>
+<th style="text-align: right;">Viento__mean.1</th>
+<th style="text-align: right;">Humedad.relativa__mean.2</th>
+<th style="text-align: right;">Temperatura__mean.2</th>
+<th style="text-align: right;">Viento__mean.2</th>
+<th style="text-align: right;">Humedad.relativa__mean.3</th>
+<th style="text-align: right;">Temperatura__mean.3</th>
+<th style="text-align: right;">Viento__mean.3</th>
+<th style="text-align: right;">Humedad.relativa__mean.4</th>
+<th style="text-align: right;">Temperatura__mean.4</th>
+<th style="text-align: right;">Viento__mean.4</th>
+<th style="text-align: right;">Humedad.relativa__mean.5</th>
+<th style="text-align: right;">Temperatura__mean.5</th>
+<th style="text-align: right;">Viento__mean.5</th>
+<th style="text-align: right;">Humedad.relativa__mean.6</th>
+<th style="text-align: right;">Temperatura__mean.6</th>
+<th style="text-align: right;">Viento__mean.6</th>
+<th style="text-align: right;">Precipitacion__sum</th>
+<th style="text-align: right;">Precipitacion__sum.1</th>
+<th style="text-align: right;">Precipitacion__sum.2</th>
+<th style="text-align: right;">Precipitacion__sum.3</th>
+<th style="text-align: right;">Precipitacion__sum.4</th>
+<th style="text-align: right;">Precipitacion__sum.5</th>
+<th style="text-align: right;">Precipitacion__sum.6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">58.65184</td>
+<td style="text-align: right;">21.05951</td>
+<td style="text-align: right;">6.536072</td>
+<td style="text-align: right;">73.22678</td>
+<td style="text-align: right;">19.90634</td>
+<td style="text-align: right;">9.780156</td>
+<td style="text-align: right;">72.67092</td>
+<td style="text-align: right;">20.71141</td>
+<td style="text-align: right;">6.466785</td>
+<td style="text-align: right;">64.03660</td>
+<td style="text-align: right;">22.97660</td>
+<td style="text-align: right;">7.916849</td>
+<td style="text-align: right;">75.99637</td>
+<td style="text-align: right;">21.51145</td>
+<td style="text-align: right;">7.020278</td>
+<td style="text-align: right;">75.77313</td>
+<td style="text-align: right;">22.40572</td>
+<td style="text-align: right;">7.760121</td>
+<td style="text-align: right;">79.29131</td>
+<td style="text-align: right;">23.34874</td>
+<td style="text-align: right;">8.997708</td>
+<td style="text-align: right;">6.2644990</td>
+<td style="text-align: right;">52.54484</td>
+<td style="text-align: right;">12.932652</td>
+<td style="text-align: right;">19.118889</td>
+<td style="text-align: right;">80.13569</td>
+<td style="text-align: right;">50.47264</td>
+<td style="text-align: right;">38.286738</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">59.67524</td>
+<td style="text-align: right;">24.46849</td>
+<td style="text-align: right;">6.702849</td>
+<td style="text-align: right;">66.70818</td>
+<td style="text-align: right;">24.94335</td>
+<td style="text-align: right;">7.635650</td>
+<td style="text-align: right;">68.78530</td>
+<td style="text-align: right;">23.51057</td>
+<td style="text-align: right;">9.631544</td>
+<td style="text-align: right;">67.10277</td>
+<td style="text-align: right;">26.44745</td>
+<td style="text-align: right;">9.499776</td>
+<td style="text-align: right;">74.89278</td>
+<td style="text-align: right;">24.31033</td>
+<td style="text-align: right;">8.607911</td>
+<td style="text-align: right;">68.22090</td>
+<td style="text-align: right;">24.39755</td>
+<td style="text-align: right;">6.674912</td>
+<td style="text-align: right;">62.14418</td>
+<td style="text-align: right;">23.93746</td>
+<td style="text-align: right;">10.163059</td>
+<td style="text-align: right;">20.3364016</td>
+<td style="text-align: right;">105.17546</td>
+<td style="text-align: right;">64.320585</td>
+<td style="text-align: right;">3.535999</td>
+<td style="text-align: right;">22.14435</td>
+<td style="text-align: right;">20.76716</td>
+<td style="text-align: right;">2.537423</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">75.47817</td>
+<td style="text-align: right;">23.30672</td>
+<td style="text-align: right;">11.707318</td>
+<td style="text-align: right;">69.85874</td>
+<td style="text-align: right;">22.88500</td>
+<td style="text-align: right;">7.769156</td>
+<td style="text-align: right;">66.82683</td>
+<td style="text-align: right;">23.60491</td>
+<td style="text-align: right;">11.975915</td>
+<td style="text-align: right;">78.75421</td>
+<td style="text-align: right;">22.81766</td>
+<td style="text-align: right;">7.818832</td>
+<td style="text-align: right;">71.46102</td>
+<td style="text-align: right;">24.41368</td>
+<td style="text-align: right;">8.539023</td>
+<td style="text-align: right;">72.08580</td>
+<td style="text-align: right;">21.74483</td>
+<td style="text-align: right;">10.505125</td>
+<td style="text-align: right;">71.91121</td>
+<td style="text-align: right;">20.34524</td>
+<td style="text-align: right;">9.793524</td>
+<td style="text-align: right;">26.9517159</td>
+<td style="text-align: right;">48.62536</td>
+<td style="text-align: right;">17.755662</td>
+<td style="text-align: right;">32.035279</td>
+<td style="text-align: right;">37.93023</td>
+<td style="text-align: right;">19.26437</td>
+<td style="text-align: right;">78.698928</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">65.99709</td>
+<td style="text-align: right;">23.05622</td>
+<td style="text-align: right;">9.307053</td>
+<td style="text-align: right;">66.27932</td>
+<td style="text-align: right;">22.40829</td>
+<td style="text-align: right;">9.362457</td>
+<td style="text-align: right;">62.79052</td>
+<td style="text-align: right;">21.13734</td>
+<td style="text-align: right;">8.522566</td>
+<td style="text-align: right;">70.15856</td>
+<td style="text-align: right;">22.37431</td>
+<td style="text-align: right;">12.823023</td>
+<td style="text-align: right;">77.18495</td>
+<td style="text-align: right;">20.60607</td>
+<td style="text-align: right;">6.630790</td>
+<td style="text-align: right;">73.42364</td>
+<td style="text-align: right;">20.76016</td>
+<td style="text-align: right;">8.531939</td>
+<td style="text-align: right;">70.80800</td>
+<td style="text-align: right;">20.49397</td>
+<td style="text-align: right;">8.744157</td>
+<td style="text-align: right;">18.4075691</td>
+<td style="text-align: right;">22.98957</td>
+<td style="text-align: right;">3.385268</td>
+<td style="text-align: right;">48.107706</td>
+<td style="text-align: right;">68.55392</td>
+<td style="text-align: right;">7.42406</td>
+<td style="text-align: right;">28.630395</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">70.11420</td>
+<td style="text-align: right;">22.39059</td>
+<td style="text-align: right;">6.448977</td>
+<td style="text-align: right;">70.79766</td>
+<td style="text-align: right;">21.60553</td>
+<td style="text-align: right;">7.183501</td>
+<td style="text-align: right;">70.04556</td>
+<td style="text-align: right;">19.77124</td>
+<td style="text-align: right;">4.253317</td>
+<td style="text-align: right;">76.69221</td>
+<td style="text-align: right;">21.63286</td>
+<td style="text-align: right;">10.644872</td>
+<td style="text-align: right;">82.05886</td>
+<td style="text-align: right;">19.98714</td>
+<td style="text-align: right;">6.305642</td>
+<td style="text-align: right;">77.69285</td>
+<td style="text-align: right;">20.29679</td>
+<td style="text-align: right;">7.255828</td>
+<td style="text-align: right;">77.95222</td>
+<td style="text-align: right;">19.49357</td>
+<td style="text-align: right;">7.388338</td>
+<td style="text-align: right;">19.6349480</td>
+<td style="text-align: right;">27.63106</td>
+<td style="text-align: right;">4.532583</td>
+<td style="text-align: right;">56.677051</td>
+<td style="text-align: right;">67.23344</td>
+<td style="text-align: right;">10.67485</td>
+<td style="text-align: right;">58.521126</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">50.92852</td>
+<td style="text-align: right;">29.47624</td>
+<td style="text-align: right;">9.801433</td>
+<td style="text-align: right;">56.89608</td>
+<td style="text-align: right;">24.52350</td>
+<td style="text-align: right;">9.467954</td>
+<td style="text-align: right;">58.88033</td>
+<td style="text-align: right;">22.84715</td>
+<td style="text-align: right;">9.601097</td>
+<td style="text-align: right;">74.53553</td>
+<td style="text-align: right;">24.08409</td>
+<td style="text-align: right;">9.087414</td>
+<td style="text-align: right;">69.11722</td>
+<td style="text-align: right;">23.92654</td>
+<td style="text-align: right;">8.830854</td>
+<td style="text-align: right;">67.63569</td>
+<td style="text-align: right;">21.76168</td>
+<td style="text-align: right;">7.618265</td>
+<td style="text-align: right;">61.74270</td>
+<td style="text-align: right;">25.97394</td>
+<td style="text-align: right;">8.762171</td>
+<td style="text-align: right;">0.5013355</td>
+<td style="text-align: right;">59.24095</td>
+<td style="text-align: right;">11.846221</td>
+<td style="text-align: right;">26.216908</td>
+<td style="text-align: right;">18.96441</td>
+<td style="text-align: right;">18.85320</td>
+<td style="text-align: right;">9.951881</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Esta base de datos que contiene 105 observaciones y 29 variables climáticas.</p>
+<p>Para la selección de variables vamos a utilizar el paquete “Boruta”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("Boruta") </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Boruta)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>## Warning: package 'Boruta' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Establecemos una semilla de aleatoriedad para garantizar la reproducibilidad</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># de este script.</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Ahora empezamos la selección </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>seleccion <span class="ot">&lt;-</span> <span class="fu">Boruta</span>(Prevalencia <span class="sc">~</span> ., <span class="co"># Establecemos nuestra variable Respuesta, </span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> datos, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">doTrace =</span> <span class="dv">0</span>,<span class="co"># Establece el nivel de siguimiento.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">maxRuns =</span> <span class="dv">400</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>seleccion</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## Boruta performed 399 iterations in 8.525803 secs.
+##  3 attributes confirmed important: Viento__mean, Viento__mean.1,
+## Viento__mean.3;
+##  22 attributes confirmed unimportant: Humedad.relativa__mean,
+## Humedad.relativa__mean.1, Humedad.relativa__mean.2,
+## Humedad.relativa__mean.3, Humedad.relativa__mean.4 and 17 more;
+##  3 tentative attributes left: Humedad.relativa__mean.6,
+## Precipitacion__sum, Temperatura__mean.4;</code></pre>
+</div>
+</div>
+<p>Podemos ver de forma gráfica los resultados:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(seleccion,<span class="at">cex.axis=</span>.<span class="dv">5</span>,<span class="at">las=</span><span class="dv">2</span>, <span class="at">xlab=</span><span class="st">""</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Seleccion-de-variables_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Vemos cual fue el valor de la media, mediana, mín. y máx. de importancia para cada variable y la decisión que tomo el algoritmo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nivel_importancia <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">attStats</span>(seleccion))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Ordenamos de mayor a menor segun la importancia media</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>importancia <span class="ot">&lt;-</span> nivel_importancia[<span class="fu">with</span>(nivel_importancia,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">order</span>(<span class="sc">-</span>nivel_importancia<span class="sc">$</span>meanImp)),] </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(importancia)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">meanImp</th>
+<th style="text-align: right;">medianImp</th>
+<th style="text-align: right;">minImp</th>
+<th style="text-align: right;">maxImp</th>
+<th style="text-align: right;">normHits</th>
+<th style="text-align: left;">decision</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Viento__mean.1</td>
+<td style="text-align: right;">8.7744376</td>
+<td style="text-align: right;">8.7930455</td>
+<td style="text-align: right;">4.8998282</td>
+<td style="text-align: right;">12.7765880</td>
+<td style="text-align: right;">0.9749373</td>
+<td style="text-align: left;">Confirmed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Viento__mean.3</td>
+<td style="text-align: right;">4.3647810</td>
+<td style="text-align: right;">4.3170769</td>
+<td style="text-align: right;">0.5440153</td>
+<td style="text-align: right;">8.7849181</td>
+<td style="text-align: right;">0.7092732</td>
+<td style="text-align: left;">Confirmed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Viento__mean</td>
+<td style="text-align: right;">3.7919869</td>
+<td style="text-align: right;">3.7963800</td>
+<td style="text-align: right;">-0.3178751</td>
+<td style="text-align: right;">7.7750945</td>
+<td style="text-align: right;">0.6390977</td>
+<td style="text-align: left;">Confirmed</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Humedad.relativa__mean.6</td>
+<td style="text-align: right;">3.3212797</td>
+<td style="text-align: right;">3.3635189</td>
+<td style="text-align: right;">-0.0971896</td>
+<td style="text-align: right;">6.1879222</td>
+<td style="text-align: right;">0.5839599</td>
+<td style="text-align: left;">Tentative</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temperatura__mean.4</td>
+<td style="text-align: right;">2.8662426</td>
+<td style="text-align: right;">2.8623287</td>
+<td style="text-align: right;">-0.7914076</td>
+<td style="text-align: right;">6.8322724</td>
+<td style="text-align: right;">0.4736842</td>
+<td style="text-align: left;">Tentative</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Precipitacion__sum</td>
+<td style="text-align: right;">2.7209341</td>
+<td style="text-align: right;">2.7179320</td>
+<td style="text-align: right;">-0.2301187</td>
+<td style="text-align: right;">5.8073459</td>
+<td style="text-align: right;">0.4686717</td>
+<td style="text-align: left;">Tentative</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Viento__mean.5</td>
+<td style="text-align: right;">2.6461833</td>
+<td style="text-align: right;">2.6410148</td>
+<td style="text-align: right;">-0.3083531</td>
+<td style="text-align: right;">5.3559630</td>
+<td style="text-align: right;">0.2656642</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Humedad.relativa__mean.1</td>
+<td style="text-align: right;">2.5907449</td>
+<td style="text-align: right;">2.6044638</td>
+<td style="text-align: right;">-0.0044658</td>
+<td style="text-align: right;">5.2558146</td>
+<td style="text-align: right;">0.2506266</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Precipitacion__sum.1</td>
+<td style="text-align: right;">2.5277664</td>
+<td style="text-align: right;">2.4945687</td>
+<td style="text-align: right;">-0.9231602</td>
+<td style="text-align: right;">6.8662029</td>
+<td style="text-align: right;">0.2130326</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Viento__mean.4</td>
+<td style="text-align: right;">0.9636597</td>
+<td style="text-align: right;">1.0917971</td>
+<td style="text-align: right;">-1.1627519</td>
+<td style="text-align: right;">2.6365677</td>
+<td style="text-align: right;">0.0025063</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Precipitacion__sum.5</td>
+<td style="text-align: right;">0.9365234</td>
+<td style="text-align: right;">0.6768509</td>
+<td style="text-align: right;">-0.7985304</td>
+<td style="text-align: right;">3.3406764</td>
+<td style="text-align: right;">0.0025063</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Humedad.relativa__mean.4</td>
+<td style="text-align: right;">0.9107913</td>
+<td style="text-align: right;">0.9500093</td>
+<td style="text-align: right;">-0.8450650</td>
+<td style="text-align: right;">3.2010794</td>
+<td style="text-align: right;">0.0050125</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Precipitacion__sum.2</td>
+<td style="text-align: right;">0.8961598</td>
+<td style="text-align: right;">0.6161133</td>
+<td style="text-align: right;">-0.9596143</td>
+<td style="text-align: right;">5.3117622</td>
+<td style="text-align: right;">0.0050125</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Humedad.relativa__mean.3</td>
+<td style="text-align: right;">0.8685379</td>
+<td style="text-align: right;">1.0799136</td>
+<td style="text-align: right;">-1.4744606</td>
+<td style="text-align: right;">3.3515707</td>
+<td style="text-align: right;">0.0075188</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Humedad.relativa__mean</td>
+<td style="text-align: right;">0.7775711</td>
+<td style="text-align: right;">0.9012670</td>
+<td style="text-align: right;">-1.1236848</td>
+<td style="text-align: right;">2.3616586</td>
+<td style="text-align: right;">0.0025063</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temperatura__mean.2</td>
+<td style="text-align: right;">0.5859421</td>
+<td style="text-align: right;">0.5442475</td>
+<td style="text-align: right;">-1.6293715</td>
+<td style="text-align: right;">2.4933502</td>
+<td style="text-align: right;">0.0025063</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temperatura__mean</td>
+<td style="text-align: right;">0.5670637</td>
+<td style="text-align: right;">0.2847687</td>
+<td style="text-align: right;">-0.6468207</td>
+<td style="text-align: right;">2.6094383</td>
+<td style="text-align: right;">0.0025063</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Precipitacion__sum.3</td>
+<td style="text-align: right;">0.5371041</td>
+<td style="text-align: right;">0.6028427</td>
+<td style="text-align: right;">-1.6094188</td>
+<td style="text-align: right;">3.3939298</td>
+<td style="text-align: right;">0.0050125</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temperatura__mean.6</td>
+<td style="text-align: right;">0.0896217</td>
+<td style="text-align: right;">0.3066048</td>
+<td style="text-align: right;">-1.4134312</td>
+<td style="text-align: right;">1.5721311</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Precipitacion__sum.4</td>
+<td style="text-align: right;">-0.0110020</td>
+<td style="text-align: right;">0.1393441</td>
+<td style="text-align: right;">-1.4347820</td>
+<td style="text-align: right;">2.6868084</td>
+<td style="text-align: right;">0.0025063</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Humedad.relativa__mean.2</td>
+<td style="text-align: right;">-0.0142062</td>
+<td style="text-align: right;">-0.2522466</td>
+<td style="text-align: right;">-1.4413259</td>
+<td style="text-align: right;">2.6032661</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temperatura__mean.1</td>
+<td style="text-align: right;">-0.1227383</td>
+<td style="text-align: right;">0.0450098</td>
+<td style="text-align: right;">-2.2650233</td>
+<td style="text-align: right;">1.5197291</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Temperatura__mean.5</td>
+<td style="text-align: right;">-0.2163498</td>
+<td style="text-align: right;">-0.5847299</td>
+<td style="text-align: right;">-1.7525981</td>
+<td style="text-align: right;">1.8029840</td>
+<td style="text-align: right;">0.0025063</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Temperatura__mean.3</td>
+<td style="text-align: right;">-0.3978331</td>
+<td style="text-align: right;">-0.3222594</td>
+<td style="text-align: right;">-1.3584858</td>
+<td style="text-align: right;">0.5269951</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Viento__mean.6</td>
+<td style="text-align: right;">-0.4373940</td>
+<td style="text-align: right;">-0.5863042</td>
+<td style="text-align: right;">-2.3023930</td>
+<td style="text-align: right;">1.6763032</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Viento__mean.2</td>
+<td style="text-align: right;">-0.5011459</td>
+<td style="text-align: right;">-0.4730653</td>
+<td style="text-align: right;">-2.5216707</td>
+<td style="text-align: right;">2.4981332</td>
+<td style="text-align: right;">0.0025063</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Humedad.relativa__mean.5</td>
+<td style="text-align: right;">-0.7985273</td>
+<td style="text-align: right;">-1.0072392</td>
+<td style="text-align: right;">-2.2219389</td>
+<td style="text-align: right;">2.1563556</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Precipitacion__sum.6</td>
+<td style="text-align: right;">-1.0445622</td>
+<td style="text-align: right;">-0.7773018</td>
+<td style="text-align: right;">-2.7763007</td>
+<td style="text-align: right;">0.7030396</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: left;">Rejected</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Podemos ver que el algoritmo selecciono tres variables como importantes, tres como tentativas y 22 como no importantes.</p>
+<p>Nos quedamos con las variables seleccionadas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>variables_selec <span class="ot">&lt;-</span> <span class="fu">names</span>(seleccion<span class="sc">$</span>finalDecision[seleccion<span class="sc">$</span>finalDecision <span class="sc">%in%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="st">"Confirmed"</span>])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(variables_selec, <span class="at">sep =</span> <span class="st">','</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>## Viento__mean,Viento__mean.1,Viento__mean.3</code></pre>
+</div>
+</div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,0 +1,121 @@
+---
+title: "Selección de Variables"
+format:
+  html:
+    theme: Minty
+    css: styles.css
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+
+::: justify
+El proceso de selección de variables es una etapa fundamental en el ajuste de modelos estadísticos y aprendizaje automático
+
+Algunas de las razones por las cuales es una etapa importante al momento de generar modelos son:
+:::
+
+::: justify
+1.  **Podría mejorar de la precisión del modelo**: Al eliminar variables irrelevantes o ruido, el modelado puede centrarse en las relaciones más importantes en los datos.
+
+2.  **Reducción de la complejidad del modelo**: Demasiadas variables en un modelo puede llevar a un sobreajuste (overfitting), y a un modelo que no generaliza bien a nuevos datos. Ademas, siempre prima el principio de la "Parsimonia", es decir que entre varias explicaciones posibles para un fenómeno, la más simple es la preferida.
+
+3.  **Ahorro de recursos**: Al eliminar variables innecesarias, se reducen los recursos computacionales y el tiempo necesario para entrenar y aplicar el modelo.
+
+4.  **Interpretabilidad**: En muchos casos, tener un modelo con un conjunto más pequeño de variables facilita la interpretación de los resultados. Un modelo más sencillo y interpretable puede ser más útil en situaciones donde es importante comprender las relaciones entre los datos.
+
+5.  **Evitar multicolinealidad**: La multicolinealidad es una situación en la que dos o más variables independientes están altamente correlacionadas entre sí. Esto puede afectar la estabilidad de los coeficientes estimados.
+:::
+
+::: justify
+Existen diferentes técnicas para la selección de variables, que van desde métodos estadísticos simples como la correlación y las pruebas de hipótesis, hasta métodos más avanzados como la eliminación recursiva de características, la selección basada en modelos y el uso de algoritmos de aprendizaje automático especializados. La elección de la técnica adecuada depende del problema específico y de los datos disponibles.
+
+En este tutorial abordaremos el método de selección conocido como ***BORUTA.***
+
+Este es un algoritmo de tipo wraper, el cual se basa en Random Forest, pero es capas de trabajar otros métodos de clasificación que pueda aplicar medidas de importancia a las variables. El funcionamiento de Boruta, se basa en crear, un numero determinado, de copias aleatorias de las variables originales a las cuales denomina **VARIABLES SOMBRAS**. El paso siguiente es ajustar un modelo de clasificación (RF) en la base extendida y aplica una medida de importancia a las variables, el valor por defecto es Precisión de disminución media. En cada interación que realiza el algoritmo verifica si una variable tiene mayor importancia que la mejor de las variables sombras y elimina a las que se consideran poco importantes, el algoritmo se detiene cuando todas las variables son clasificadas o cuando se alcanzo el limite de iteraciones.
+:::
+
+
+# Ejemplo
+
+::: justify
+Cargamos la base de datos y visualizamos las primeras observaciones
+
+```{r}
+datos <- read.table("datos/datos_con_variables.txt", 
+                    sep = '\t',
+                    header = T) 
+
+knitr::kable(head(datos))
+
+```
+
+
+Esta base de datos que contiene 105 observaciones y 29 variables climáticas.
+
+Para la selección de variables vamos a utilizar el paquete "Boruta".
+
+
+
+```{r}
+#install.packages("Boruta") 
+library(Boruta)
+
+# Establecemos una semilla de aleatoriedad para garantizar la reproducibilidad
+# de este script.
+
+set.seed(123)
+
+# Ahora empezamos la selección 
+seleccion <- Boruta(Prevalencia ~ ., # Establecemos nuestra variable Respuesta, 
+                    data = datos, 
+                    doTrace = 0,# Establece el nivel de siguimiento.
+                    maxRuns = 400)
+
+seleccion
+```
+
+
+Podemos ver de forma gráfica los resultados:
+
+
+```{r}
+
+plot(seleccion,cex.axis=.5,las=2, xlab="")
+
+```
+
+
+Vemos cual fue el valor de la media, mediana, mín. y máx. de importancia para cada variable y la decisión que tomo el algoritmo:
+
+
+```{r}
+
+nivel_importancia <- as.data.frame(attStats(seleccion))
+#Ordenamos de mayor a menor segun la importancia media
+importancia <- nivel_importancia[with(nivel_importancia,
+                                  order(-nivel_importancia$meanImp)),] 
+knitr::kable(importancia)
+
+```
+
+
+Podemos ver que el algoritmo selecciono tres variables como importantes, tres como tentativas y 22 como no importantes. 
+
+Nos quedamos con las variables seleccionadas:
+
+
+```{r}
+
+variables_selec <- names(seleccion$finalDecision[seleccion$finalDecision %in%
+                                                   "Confirmed"])
+
+
+cat(variables_selec, sep = ',')
+
+```
+
+:::
+
+

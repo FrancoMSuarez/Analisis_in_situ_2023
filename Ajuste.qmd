@@ -1,0 +1,75 @@
+---
+title: "Ajuste de modelo predictivo"
+format:
+  html:
+    theme: Minty
+    css: styles.css
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+::: justify
+
+Vamos hacer dos modelos, un random forest y una regresion logistica. 
+Vamos a particionar la base de datos en set de entrenamiento y set de testeo
+
+```{r}
+# install.packages('caret')
+# install.packages('MLmetrics')
+library(caret)
+library(MLmetrics)
+datos <- read.table("datos/datos_con_variables.txt", 
+                    sep = '\t',
+                    header = T) 
+
+datos$Prevalencia <- factor(datos$Prevalencia,
+                            labels = c('N','P'))
+
+set.seed(123)
+entrenar <- createDataPartition(datos$Prevalencia,
+                                p = 0.8, 
+                                list = F)
+
+set_entrenamiento <- datos[entrenar,]
+set_test <- datos[-entrenar,]
+cat("El set de entrenamiento tiene", nrow(set_entrenamiento), "observaciones y
+    el set de testeo tiene", nrow(set_test), "observaciones.")
+```
+
+Definimos el control del entrenamiento para los modelos:
+
+```{r}
+control_entrenamiento <- trainControl(method = "repeatedcv",
+                           number=5,
+                           repeats = 3,
+                           returnResamp = "final",
+                           summaryFunction = multiClassSummary,
+                           allowParallel = TRUE,
+                           classProbs = TRUE, 
+                           p = .8)
+
+```
+:::
+
+# Random Forest
+
+::: justify
+Utilizaremos la funcion train que permite seleccionar la métrica que queremos maximizar (o minimizar). En este maximizaremos la métrica AUC, ya que la usaremos para evaluar el rendimiento de nuestros clasificadores.
+
+```{r}
+set.seed(123)
+rf <- train(Prevalencia ~ Viento__mean + Viento__mean.1 + Viento__mean.3,
+            data=set_entrenamiento,
+                  method="rf",
+                  metric = "AUC",    
+                  trControl = control_entrenamiento)
+
+
+cat("El área media bajo la curva ROC de este modelo fue:", mean(rf$resample$AUC), "\n")
+
+cat("La precisión media de este modelo fue:", mean(rf$resample$Accuracy), "\n")
+
+cat("El índice Kappa medio de este modelo fue:", mean(rf$resample$Kappa), "\n")
+```
+

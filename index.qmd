@@ -20,7 +20,7 @@ A lo largo de este análisis, exploraremos en detalle el acceso y la descarga de
 
 # Contenidos
 
-1\.Tutorial para instalar el paquete "rgee".
+1.Tutorial para instalar el paquete "rgee".
 
 2\. Descarga de variables climaticas.
 

@@ -20,6 +20,8 @@ website:
         text: Descarga de variables climaticas <br> desde Google Earth Engine
       - href: Seleccion de variables.qmd
         text: Seleccíon de variables
+      - href: Ajuste.qmd
+        text: Ajuste de <br> modelo predictivo
       
       
   page-footer:
