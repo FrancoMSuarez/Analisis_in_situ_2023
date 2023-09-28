@@ -11,9 +11,9 @@ Previamente a instalar rgee:
 Abrir Rstudio e instalar los paquetes necesarios
 
 ```{r,eval=FALSE}
-install.packages('sf')
-install.packages('reticulate')
-install.packages('remotes')
+# install.packages('sf')
+# install.packages('reticulate')
+# install.packages('remotes')
 
 ```
 
@@ -21,7 +21,7 @@ Instalar rgee utilizando el paqute reomotes
 
 ```{r,eval=FALSE}
 library('reticulate')
-remotes::install_github('r-spatial/rgee')
+#remotes::install_github('r-spatial/rgee')
 library(rgee)
 ```
 
@@ -37,7 +37,7 @@ Verificar la dirección de Python
 import('sys')$executable
 ```
 
-crea un ambiente isolado de Python con todas las dependencias
+crea un ambiente aislado de Python con todas las dependencias. Aquí le pedirá aceptar el ambiente a crear y la dará su dirección que debe copiar
 
 ```{r,eval=FALSE}
 ee_install()
@@ -48,7 +48,7 @@ Aqui, luego de un rato , nos va a pedir que aceptemos los cambios escribimos: Y,
 Una vez reiniciada establecemos el directorio al ambiente de rgee en la computadora
 
 ```{r,eval=FALSE}
-reticulate::use_python('direccion del ambiente de Python a utlizar', required = TRUE)
+reticulate::use_python('C:/Users/franm/.conda/envs/rgee/python.exe', required = TRUE)
 reticulate::py_config()
 ```
 
@@ -58,7 +58,7 @@ Cargamos el paquete rgee
 library(rgee)
 ```
 
-Inicializamos el google earth engine, cuando inicializamos por primera vez R nos pedira abrir una ventana del navegador para pedirnos que nos autentiquemos con nuetras credenciales de google earth engine. Rellenamos y le damos a next, una vez logeados nos dara una contraseña, la cual debemos copiarla y pegarla en la consola que nos estara pidiendo como enter earth egnine authenticaiton
+Inicializamos el google earth engine, cuando iniciamos por primera vez R nos pedirá abrir una ventana del navegador para que nos autentifiquemos con nuestras credenciales de google earth engine. Rellenamos y le damos a next, una vez logeados nos dará una contraseña, la cual debemos copiarla y pegarla en la consola que nos estará pidiendo como enter earth egnine authenticaiton
 
 ```{r,eval=FALSE}
 ee_Initialize()

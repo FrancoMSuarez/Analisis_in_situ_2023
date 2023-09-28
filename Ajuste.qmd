@@ -10,17 +10,23 @@ editor_options:
 ---
 
 ::: justify
+Vamos hacer dos modelos, un random forest y una regresion logistica, para ello vamos a usar las variables que fueron seleccionadas por el metodo BORUTA:  
 
-Vamos hacer dos modelos, un random forest y una regresion logistica. 
-Vamos a particionar la base de datos en set de entrenamiento y set de testeo
+-   Viento_M3
 
-```{r}
+-   Punto.rocio_M3
+
+-   Precipitacion_S3
+
+Primero vamos a particionar la base de datos en set de entrenamiento y set de testeo para controlar la capacidad de clasificacion de nuestros modelos.
+
+```{r warning=FALSE, message=FALSE}
 # install.packages('caret')
 # install.packages('MLmetrics')
 library(caret)
 library(MLmetrics)
-datos <- read.table("datos/datos_con_variables.txt", 
-                    sep = '\t',
+datos <- read.table("datos/datos_climaticos_p90_s10_GRSV_.csv", 
+                    sep = ',',
                     header = T) 
 
 datos$Prevalencia <- factor(datos$Prevalencia,
@@ -33,13 +39,23 @@ entrenar <- createDataPartition(datos$Prevalencia,
 
 set_entrenamiento <- datos[entrenar,]
 set_test <- datos[-entrenar,]
-cat("El set de entrenamiento tiene", nrow(set_entrenamiento), "observaciones y
-    el set de testeo tiene", nrow(set_test), "observaciones.")
+
+```
+
+El set de entrenamiento tiene `r nrow(set_entrenamiento)` observaciones y el set de testeo tiene `r nrow(set_test)` observaciones.
+
+```{r warning=FALSE, message=FALSE}
+proporciones <- data.frame("Set" = c("Entrenamiento","Validacion"),
+           "Positivos" = c(sum(set_entrenamiento$Prevalencia == "P")/nrow(set_entrenamiento),
+                           sum(set_test$Prevalencia == "P")/nrow(set_test)),
+           "Negativos" = c(sum(set_entrenamiento$Prevalencia == "N")/nrow(set_entrenamiento),
+                           sum(set_test$Prevalencia == "N")/nrow(set_test)))
+knitr::kable(proporciones)
 ```
 
 Definimos el control del entrenamiento para los modelos:
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 control_entrenamiento <- trainControl(method = "repeatedcv",
                            number=5,
                            repeats = 3,
@@ -55,21 +71,104 @@ control_entrenamiento <- trainControl(method = "repeatedcv",
 # Random Forest
 
 ::: justify
-Utilizaremos la funcion train que permite seleccionar la métrica que queremos maximizar (o minimizar). En este maximizaremos la métrica AUC, ya que la usaremos para evaluar el rendimiento de nuestros clasificadores.
+Utilizaremos la función train que permite seleccionar la métrica que queremos maximizar (o minimizar). En este maximizaremos la métrica AUC, ya que la usaremos para evaluar el rendimiento de nuestros clasificadores.
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 set.seed(123)
-rf <- train(Prevalencia ~ Viento__mean + Viento__mean.1 + Viento__mean.3,
+rfgrid <- expand.grid(mtry = 2)
+rf <- train(Prevalencia ~Viento_M3+Punto.rocio_M3+Precipitacion_S3,
             data=set_entrenamiento,
                   method="rf",
-                  metric = "AUC",    
+                  metric = "AUC",  
+                  tuneGrid = rfgrid,
                   trControl = control_entrenamiento)
 
-
-cat("El área media bajo la curva ROC de este modelo fue:", mean(rf$resample$AUC), "\n")
-
-cat("La precisión media de este modelo fue:", mean(rf$resample$Accuracy), "\n")
-
-cat("El índice Kappa medio de este modelo fue:", mean(rf$resample$Kappa), "\n")
 ```
 
+El área media bajo la curva ROC de este modelo fue: `r mean(rf$resample$AUC)`
+
+La precisión media de este modelo fue: `r mean(rf$resample$Accuracy)`
+
+El índice Kappa medio de este modelo fue: `r mean(rf$resample$Kappa)`
+
+
+
+Podemos comparar la precisión media del modelo en el set de entrenamiento y en el set de testeo.
+
+```{r warning=FALSE, message=FALSE}
+
+Testeo <- MLmetrics::Accuracy(predict(rf,set_test),set_test$Prevalencia)
+SensRF <- MLmetrics::Sensitivity(set_test$Prevalencia,predict(rf,set_test), positive = "P")
+EspRF <- MLmetrics::Specificity(set_test$Prevalencia,predict(rf,set_test), positive = "P")
+AUCRF <- pROC::auc(as.numeric(set_test$Prevalencia),as.numeric(predict(rf,set_test)))
+
+```
+
+La precisión media del set de entrenamiento fue: `r round(mean(rf$resample$Accuracy),2)`, y la precisión en el set de testeo fue: `r Testeo`
+:::
+
+# Regresion Logistica
+
+::: justify
+
+```{r warning=FALSE, message=FALSE}
+set.seed(123)
+
+rlg <- train(Prevalencia ~Viento_M3+Punto.rocio_M3+Precipitacion_S3,
+            data=set_entrenamiento,
+                  method="glm",
+                  family = "binomial",
+                  metric = "AUC",  
+                  trControl = control_entrenamiento)
+```
+
+El área media bajo la curva ROC de este modelo fue: `r mean(rlg$resample$AUC)`.
+
+La precisión media de este modelo fue: `r mean(rlg$resample$Accuracy)`.
+
+El índice Kappa medio de este modelo fue: `r mean(rlg$resample$Kappa)`.
+
+De nuevo comparamos la precisión media del modelo en el set de entrenamiento y en el set de testeo.
+
+```{r warning=FALSE, message=FALSE}
+
+TesteoRL <- MLmetrics::Accuracy(predict(rlg,set_test),set_test$Prevalencia)
+SensRL <- MLmetrics::Sensitivity(set_test$Prevalencia,predict(rlg,set_test), positive = "P")
+EspRL <- MLmetrics::Specificity(set_test$Prevalencia,predict(rlg,set_test), positive = "P")
+AUCRL <- pROC::auc(as.numeric(set_test$Prevalencia),as.numeric(predict(rlg,set_test)))
+
+```
+
+La precisión media del set de entrenamiento fue: `r round(mean(rlg$resample$Accuracy),2)`, y la precisión en el set de testeo fue: `r TesteoRL`
+
+# Comparamos ambos modelos ajustados.
+
+```{r warning=FALSE, message=FALSE}
+comparacion <- data.frame("Modelos" = c("Random Forest", "Regresion Logistica"), 
+                          "Precisión" = c(Testeo, TesteoRL),
+                          "Sensibilidad" = c(SensRF,SensRL), 
+                          "Especificidad" = c(EspRF,EspRL), 
+                          "AUC" = c(AUCRF,AUCRL))
+
+knitr::kable(comparacion)
+```
+
+# Graficamos las curvas ROC
+
+```{r warning=FALSE, message=FALSE}
+
+datos_roc <- data.frame("Prevalencia" = as.numeric(set_test$Prevalencia), 
+                        "RF" = as.numeric(predict(rf,set_test)),
+                        "RL" = as.numeric(predict(rlg,set_test)))
+
+
+
+roc.list <- pROC::roc(Prevalencia ~ RF + RL, data = datos_roc)
+
+pROC::ggroc(roc.list) +
+  scale_color_discrete(name = "Modelo")+
+  theme_minimal()+
+  geom_abline(slope = 1, intercept = 1, linetype = "dashed")
+
+```
+:::

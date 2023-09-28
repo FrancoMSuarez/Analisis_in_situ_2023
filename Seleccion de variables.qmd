@@ -40,21 +40,21 @@ Este es un algoritmo de tipo wraper, el cual se basa en Random Forest, pero es c
 
 ::: justify
 Cargamos la base de datos y visualizamos las primeras observaciones
-```{r}
-datos <- read.table("datos/datos_con_variables.txt", 
-                    sep = '\t',
+```{r warning=FALSE, message=FALSE}
+datos <- read.table("datos/datos_climaticos_p90_s10_GRSV_.csv", 
+                    sep = ',',
                     header = T) 
 
 knitr::kable(head(datos))
 
 ```
 
-Esta base de datos que contiene 105 observaciones y 29 variables climáticas.
+Esta base de datos que contiene 105 observaciones y 54 variables climáticas.
 
 Para la selección de variables vamos a utilizar el paquete "Boruta".
 
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 #install.packages("Boruta") 
 library(Boruta)
 
@@ -62,19 +62,18 @@ library(Boruta)
 # de este script.
 
 set.seed(123)
-
 # Ahora empezamos la selección 
 seleccion <- Boruta(Prevalencia ~ ., # Establecemos nuestra variable Respuesta, 
                     data = datos, 
                     doTrace = 0,# Establece el nivel de siguimiento.
-                    maxRuns = 400)
+                    maxRuns = 300)
 
 seleccion
 ```
 
 Podemos ver de forma gráfica los resultados:
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 
 plot(seleccion,cex.axis=.5,las=2, xlab="")
 
@@ -82,7 +81,7 @@ plot(seleccion,cex.axis=.5,las=2, xlab="")
 
 Vemos cual fue el valor de la media, mediana, mín. y máx. de importancia para cada variable y la decisión que tomo el algoritmo:
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 
 nivel_importancia <- as.data.frame(attStats(seleccion))
 #Ordenamos de mayor a menor segun la importancia media
@@ -94,16 +93,13 @@ knitr::kable(importancia)
 
 Podemos ver que el algoritmo selecciono tres variables como importantes, tres como tentativas y 22 como no importantes. 
 
-Nos quedamos con las variables seleccionadas:
-
-```{r}
+```{r warning=FALSE, message=FALSE}
 
 variables_selec <- names(seleccion$finalDecision[seleccion$finalDecision %in%
                                                    "Confirmed"])
 
-
-cat(variables_selec, sep = ',')
-
 ```
+
+Nos quedamos con las variables seleccionadas: `r cat(variables_selec, sep = ', ')`
 :::
 

@@ -1,8 +1,11 @@
 ---
 title: "Descarga de variables climaticas desde Google Earth Engine"
+editor_options: 
+  chunk_output_type: console
 ---
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=F, message=FALSE}
+#install.packages('geojsonio')
 library(tidyverse)
 library(ggplot2)
 library(sf)
@@ -19,24 +22,16 @@ df$Lat <- df$Lat *-1 ## multiplicamos por -1
 df$Long <- df$Long *-1
 ```
 
-```{r}
-sum(is.na(df)) ## sin relevancia nombre:columna 1 
-
-```
-
-```{r}
-sum(is.na(df$Columna1))
-```
 
 ### Trabajamos con las variables temporales
 
-Convertimas la columna con las fechas del periodo critico y le restamos 30 dias para ampliar la ventana de descarga de las variables climaticas
+Convertimos la columna con las fechas del periodo critico y le restamos 30 días para ampliar la ventana de descarga de las variables climáticas
 
 ```{r}
 df$fechacorta <- as.Date(df$fechacorta) - days(30)
 ```
 
-### Trabajamos con las variables espaciales 
+### Trabajamos con las variables espaciales
 
 Convertimos el dataframe a un dataframe con datos espaciales
 
@@ -50,7 +45,7 @@ df_sf <- st_as_sf(df,
 
 Chequeamos que los puntos pertencen a los lugares que deberian
 
-```{r}
+```{r message=FALSE}
 tmap_mode('view')
 tm_shape(df_sf) +
   tm_dots()
@@ -61,13 +56,14 @@ Generamos un poligono para delimitar el area de descarga de los datos
 ```{r}
 poligono <-  st_convex_hull(st_buffer(st_combine(df_sf),
                                       units::as_units(4000,'m')))
-plot(poligono)
+tm_shape(poligono) +
+  tm_polygons(alpha = 0)  +
+  tm_shape(df_sf) +
+  tm_dots()
 ```
 
-Inicializamos GEE, transformamos el poligono sf a un objeto earth engine y estamos listos para comenzar la descarga !
+Inicializamos GEE, transformamos el poligono sf a un objeto earth engine y estamos listos para comenzar la descarga!
 
-```{}
-```
 
 ```{r}
 ee_Initialize()
@@ -84,19 +80,19 @@ source('src/XClimVar2.R') # Contie la fucion de descarga
 
 ```
 
-La funcion de descarga necesita :
+La función de descarga necesita :
 
 -   dataframe con la columna geom, es decir haberlo transformado a un dataframe sf.
 
 -   la columna tiempo, contiene las fechas estas pueden estar en string, no necesariamente en type date.
 
--   pol , es el poligono generado con los puntos que se encuantran en el dataset. poigon_ee.
+-   pol , es el polígono generado con los puntos que se encuentran en el dataset. poigon_ee.
 
--   climaticvar , recive como input un vector con las variables a descargar estas pueden ser :
+-   climaticvar , recibe como input un vector con las variables a descargar estas pueden ser :
 
-c('pp_sum','pp_mean','t_mean','t_sum','te_mean','te_sum','dp','wind','hr') mientras mayor sea el numero de variables mas tiempo tomara la extraccion
+c('pp_sum','pp_mean','t_mean','t_sum','te_mean','te_sum','dp','wind','hr') mientras mayor sea el numero de variables mas tiempo tomara la extracción
 
-Estas tres variables reciven como input TRUE por default son FALSE, esto es para calcular los tiempos en dias ,meses o anios.
+Estas tres variables reciben como input TRUE por default son FALSE, esto es para calcular los tiempos en días ,meses o años.
 
 -   Daily(boolean)
 
@@ -104,13 +100,13 @@ Estas tres variables reciven como input TRUE por default son FALSE, esto es para
 
 -   Yearly(boolean)
 
--   p_length: es el Largo del periodo total para la descarga de variables(numerica)
+-   p_length: es el largo del periodo total para la descarga de variables(numérica)
 
--   step: es cada cuanto se toma las variables(numerica)
+-   step: es cada cuanto se toma las variables(numérica)
 
 ### 
 
-```{r}
+```{r, eval=FALSE}
 df_climatic <- XClimVar(df_sf,
                         df_sf$fechacorta,
                         pol = poligono_ee,
@@ -120,4 +116,10 @@ df_climatic <- XClimVar(df_sf,
                         step=10)
 head(df_climatic)
 
+df_climatic <- cbind(st_coordinates(df_climatic),
+                     st_drop_geometry(df_climatic))
+
+write.csv(df_climatic, "datos/datos_climaticos_p90_s10_GRSV.csv",
+          row.names = F,
+          sep = ',')
 ```
