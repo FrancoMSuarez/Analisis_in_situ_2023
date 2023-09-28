@@ -100,6 +100,5 @@ variables_selec <- names(seleccion$finalDecision[seleccion$finalDecision %in%
 
 ```
 
-Nos quedamos con las variables seleccionadas: `r cat(variables_selec, sep = ', ')`
-:::
+Nos quedamos con las variables seleccionadas: `r variables_selec`
 

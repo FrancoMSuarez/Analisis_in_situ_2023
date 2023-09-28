@@ -7,21 +7,20 @@ website:
   navbar:
     search: false
     title: false
-    logo: '/imagenes/logo_gab_2023.png'
-    logo-alt: 'XXVII Reunión Científica GAB' 
+    
     #background: '#ffff'
     #foreground: '#e09c6c'
     left:
       - href: index.qmd
         text: Inicio
       - href: instalacion.qmd
-        text: Instalacion <br> rgee
+        text: Instalación
       - href: descarga.qmd
-        text: Descarga de variables climaticas <br> desde Google Earth Engine
+        text: Descarga 
       - href: Seleccion de variables.qmd
-        text: Seleccíon de variables
+        text: Seleccíon
       - href: Ajuste.qmd
-        text: Ajuste de <br> modelo predictivo
+        text: Ajuste
       
       
   page-footer:

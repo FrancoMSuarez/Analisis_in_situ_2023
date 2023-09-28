@@ -23,17 +23,17 @@ df$Long <- df$Long *-1
 ```
 
 
-### Trabajamos con las variables temporales
+## Trabajamos con las variables temporales
 
-Convertimos la columna con las fechas del periodo critico y le restamos 30 días para ampliar la ventana de descarga de las variables climáticas
+Convertimos la columna con las fechas del periodo crítico y le restamos 30 días para ampliar la ventana de descarga de las variables climáticas
 
 ```{r}
 df$fechacorta <- as.Date(df$fechacorta) - days(30)
 ```
 
-### Trabajamos con las variables espaciales
+## Trabajamos con las variables espaciales
 
-Convertimos el dataframe a un dataframe con datos espaciales
+Convertimos el `dataframe` a un objeto espacial cuya estructura es similar al `dataframe` pero con una columna que hace referencia a las coordenadas espaciales.
 
 ```{r}
 ## vamos a utlizar la libreria sf
@@ -43,7 +43,7 @@ df_sf <- st_as_sf(df,
 
 ```
 
-Chequeamos que los puntos pertencen a los lugares que deberian
+Chequeamos que los puntos pertenecen a los lugares que deberían
 
 ```{r message=FALSE}
 tmap_mode('view')
@@ -51,7 +51,7 @@ tm_shape(df_sf) +
   tm_dots()
 ```
 
-Generamos un poligono para delimitar el area de descarga de los datos
+Generamos un polígono para delimitar el área de descarga de los datos
 
 ```{r}
 poligono <-  st_convex_hull(st_buffer(st_combine(df_sf),

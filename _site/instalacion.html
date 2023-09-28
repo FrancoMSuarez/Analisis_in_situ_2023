@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Analisis in situ: Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales - Instrucciónes para instalar “rgee”</title>
+<title>Analisis in situ: Modelos estadísticos basados en aprendizaje automático para predecir enfermedades en cultivos agrícolas usando variables climáticas de productos satelitales - Instrucciones para instalar rgee</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,11 +104,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./imagenes/logo_gab_2023.png" alt="XXVII Reunión Científica GAB" class="navbar-logo">
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Buscar"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -121,19 +116,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./instalacion.html" rel="" target="" aria-current="page">
- <span class="menu-text">Instalacion <br> rgee</span></a>
+ <span class="menu-text">Instalación</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./descarga.html" rel="" target="">
- <span class="menu-text">Descarga de variables climaticas <br> desde Google Earth Engine</span></a>
+ <span class="menu-text">Descarga</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./Seleccion de variables.html" rel="" target="">
- <span class="menu-text">Seleccíon de variables</span></a>
+ <span class="menu-text">Seleccíon</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./Ajuste.html" rel="" target="">
- <span class="menu-text">Ajuste de <br> modelo predictivo</span></a>
+ <span class="menu-text">Ajuste</span></a>
   </li>  
 </ul>
             <div class="quarto-navbar-tools ms-auto">
@@ -154,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Instrucciónes para instalar “rgee”</h1>
+<h1 class="title">Instrucciones para instalar <code>rgee</code></h1>
 </div>
 
 
@@ -169,26 +164,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Previamente a instalar rgee:</p>
+<p>Previamente a instalar <code>rgee</code>:</p>
 <li>
-tener instalado <a href="https://www.python.org/">Python</a> con la libreria GEE.
+Tener instalado <a href="https://www.python.org/">Python</a> con la libreria GEE.
 </li>
 <li>
 Tener creada una cuenta en <a href="https://earthengine.google.com/">Google Earth Engine</a>.
 </li>
 <p>Abrir Rstudio e instalar los paquetes necesarios</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('sf')</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('reticulate')</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages('remotes')</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'sf'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'reticulate'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'remotes'</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Instalar rgee utilizando el paqute reomotes</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'reticulate'</span>)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#remotes::install_github('r-spatial/rgee')</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Utilizar la funcion py_dicover_config() para ver la version de python que utiliza</p>
+<p>Utilizar la función <code>py_dicover_config()</code> para ver la versión de python que utiliza</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">py_discover_config</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -196,29 +191,29 @@ Tener creada una cuenta en <a href="https://earthengine.google.com/">Google Eart
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">import</span>(<span class="st">'sys'</span>)<span class="sc">$</span>executable</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>crea un ambiente aislado de Python con todas las dependencias. Aquí le pedirá aceptar el ambiente a crear y la dará su dirección que debe copiar</p>
+<p>La siguiente función crea un ambiente aislado de Python con todas las dependencias. Aquí le pedirá aceptar el ambiente a crear y la dará su dirección que debe copiar</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_install</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Aqui, luego de un rato , nos va a pedir que aceptemos los cambios escribimos: Y, en la consola y le damos aceptar. Luego de que se haya instalado, reiniciar la computadora.</p>
+<p>Aqui, luego de unos minutos , pedirá aceptar los cambios, para esto escribimos <kbd>Y</kbd> en la consola y presionamos la tecla <kbd>Enter</kbd>. Luego de que se haya instalado sugerimos reiniciar la computadora.</p>
 <p>Una vez reiniciada establecemos el directorio al ambiente de rgee en la computadora</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">use_python</span>(<span class="st">'C:\Users</span><span class="sc">\f</span><span class="st">ranm\.conda</span><span class="sc">\e</span><span class="st">nvs</span><span class="sc">\r</span><span class="st">gee/python.exe'</span>, <span class="at">required =</span> <span class="cn">TRUE</span>)</span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">use_python</span>(<span class="st">'C:/Users/.../python.exe'</span>, <span class="at">required =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>reticulate<span class="sc">::</span><span class="fu">py_config</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Cargamos el paquete rgee</p>
+<p>Cargar el paquete rgee</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Inicializamos el google earth engine, cuando inicializamos por primera vez R nos pedira abrir una ventana del navegador para pedirnos que nos autentiquemos con nuetras credenciales de google earth engine. Rellenamos y le damos a next, una vez logeados nos dara una contraseña, la cual debemos copiarla y pegarla en la consola que nos estara pidiendo como enter earth egnine authenticaiton</p>
+<p>Inicializar google earth engine, cuando iniciamos por primera vez R pedirá abrir una ventana del navegador para que autentifiquemos con nuestras credenciales. Rellenamos y presionamos next, una vez logeados nos se mostrara un token, el cual debemos copiar y pegar en la consola de rstudio.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Verificamos si esta todo correcto corriendo la siguente linea</p>
+<p>Verificar si todo esta correcto ejecutando la siguiente linea</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ee<span class="sc">$</span><span class="fu">String</span>(<span class="st">'Autenticado correctametne desde EE'</span>)<span class="sc">$</span><span class="fu">getInfo</span>()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Si aparece un error con Cloud SKD este <a href="https://www.youtube.com/watch?v=1-k6wNL2hlo&amp;ab_channel=RicardoDalagnol">video</a> podria ser de ayuda.</p>
+<p>Si aparece un error con Cloud SKD este <a href="https://www.youtube.com/watch?v=1-k6wNL2hlo&amp;ab_channel=RicardoDalagnol">video</a> podría ser de ayuda.</p>
 
 
 

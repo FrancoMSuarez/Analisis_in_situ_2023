@@ -1,31 +1,31 @@
 ---
-title: 'Instrucciónes para instalar "rgee"'
+title: Instrucciones para instalar `rgee`
 ---
 
-Previamente a instalar rgee:
+Previamente a instalar `rgee`:
 
-<li>tener instalado <a href='https://www.python.org/'>Python</a> con la libreria GEE.</li>
+<li>Tener instalado <a href='https://www.python.org/'>Python</a> con la libreria GEE.</li>
 
 <li>Tener creada una cuenta en <a href='https://earthengine.google.com/' >Google Earth Engine</a>.</li>
 
 Abrir Rstudio e instalar los paquetes necesarios
 
 ```{r,eval=FALSE}
-# install.packages('sf')
-# install.packages('reticulate')
-# install.packages('remotes')
+install.packages('sf')
+install.packages('reticulate')
+install.packages('remotes')
 
 ```
 
 Instalar rgee utilizando el paqute reomotes
 
 ```{r,eval=FALSE}
-library('reticulate')
+library(reticulate)
 #remotes::install_github('r-spatial/rgee')
 library(rgee)
 ```
 
-Utilizar la funcion py_dicover_config() para ver la version de python que utiliza
+Utilizar la función `py_dicover_config()` para ver la versión de python que utiliza
 
 ```{r,eval=FALSE}
 py_discover_config()
@@ -37,37 +37,37 @@ Verificar la dirección de Python
 import('sys')$executable
 ```
 
-crea un ambiente aislado de Python con todas las dependencias. Aquí le pedirá aceptar el ambiente a crear y la dará su dirección que debe copiar
+La siguiente función crea un ambiente aislado de Python con todas las dependencias. Aquí le pedirá aceptar el ambiente a crear y la dará su dirección que debe copiar
 
 ```{r,eval=FALSE}
 ee_install()
 ```
 
-Aqui, luego de un rato , nos va a pedir que aceptemos los cambios escribimos: Y, en la consola y le damos aceptar. Luego de que se haya instalado, reiniciar la computadora.
+Aqui, luego de unos minutos , pedirá aceptar los cambios, para esto escribimos <kbd>Y</kbd> en la consola y presionamos la tecla <kbd>Enter</kbd>. Luego de que se haya instalado sugerimos reiniciar la computadora.
 
 Una vez reiniciada establecemos el directorio al ambiente de rgee en la computadora
 
 ```{r,eval=FALSE}
-reticulate::use_python('C:/Users/franm/.conda/envs/rgee/python.exe', required = TRUE)
+reticulate::use_python('C:/Users/.../python.exe', required = TRUE)
 reticulate::py_config()
 ```
 
-Cargamos el paquete rgee
+Cargar el paquete rgee
 
 ```{r,eval=FALSE}
 library(rgee)
 ```
 
-Inicializamos el google earth engine, cuando iniciamos por primera vez R nos pedirá abrir una ventana del navegador para que nos autentifiquemos con nuestras credenciales de google earth engine. Rellenamos y le damos a next, una vez logeados nos dará una contraseña, la cual debemos copiarla y pegarla en la consola que nos estará pidiendo como enter earth egnine authenticaiton
+Inicializar google earth engine, cuando iniciamos por primera vez R pedirá abrir una ventana del navegador para que autentifiquemos con nuestras credenciales. Rellenamos y presionamos next, una vez logeados nos se mostrara un token, el cual debemos copiar y pegar en la consola de rstudio.
 
 ```{r,eval=FALSE}
 ee_Initialize()
 ```
 
-Verificamos si esta todo correcto corriendo la siguente linea
+Verificar si todo esta correcto ejecutando la siguiente linea
 
 ```{r,eval=FALSE}
 ee$String('Autenticado correctametne desde EE')$getInfo()
 ```
 
-Si aparece un error con Cloud SKD este <a href= 'https://www.youtube.com/watch?v=1-k6wNL2hlo&ab_channel=RicardoDalagnol'>video</a> podria ser de ayuda.
+Si aparece un error con Cloud SKD este <a href= 'https://www.youtube.com/watch?v=1-k6wNL2hlo&ab_channel=RicardoDalagnol'>video</a> podría ser de ayuda.

@@ -104,11 +104,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./imagenes/logo_gab_2023.png" alt="XXVII Reunión Científica GAB" class="navbar-logo">
-    </a>
-  </div>
             <div id="quarto-search" class="" title="Buscar"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -121,19 +116,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./instalacion.html" rel="" target="">
- <span class="menu-text">Instalacion <br> rgee</span></a>
+ <span class="menu-text">Instalación</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./descarga.html" rel="" target="">
- <span class="menu-text">Descarga de variables climaticas <br> desde Google Earth Engine</span></a>
+ <span class="menu-text">Descarga</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./Seleccion de variables.html" rel="" target="" aria-current="page">
- <span class="menu-text">Seleccíon de variables</span></a>
+ <span class="menu-text">Seleccíon</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./Ajuste.html" rel="" target="">
- <span class="menu-text">Ajuste de <br> modelo predictivo</span></a>
+ <span class="menu-text">Ajuste</span></a>
   </li>  
 </ul>
             <div class="quarto-navbar-tools ms-auto">
@@ -195,8 +190,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="ejemplo" class="level1">
 <h1>Ejemplo</h1>
-<div class="justify">
-<p>Cargamos la base de datos y visualizamos las primeras observaciones</p>
+<p>::: justify Cargamos la base de datos y visualizamos las primeras observaciones</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"datos/datos_climaticos_p90_s10_GRSV_.csv"</span>, </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sep =</span> <span class="st">','</span>,</span>
@@ -686,7 +680,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>seleccion</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>## Boruta performed 299 iterations in 6.349372 secs.
+<pre><code>## Boruta performed 299 iterations in 6.660165 secs.
 ##  3 attributes confirmed important: Precipitacion_S3, Punto.rocio_M3,
 ## Viento_M3;
 ##  48 attributes confirmed unimportant: Humedad.relativa_M1,
@@ -1224,12 +1218,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Podemos ver que el algoritmo selecciono tres variables como importantes, tres como tentativas y 22 como no importantes.</p>
-<p>Nos quedamos con las variables seleccionadas:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>variables_selec <span class="ot">&lt;-</span> <span class="fu">names</span>(seleccion<span class="sc">$</span>finalDecision[seleccion<span class="sc">$</span>finalDecision <span class="sc">%in%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                                                   <span class="st">"Confirmed"</span>])</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+<p>Nos quedamos con las variables seleccionadas: Precipitacion_S3, Punto.rocio_M3, Viento_M3</p>
 
 
 </section>
