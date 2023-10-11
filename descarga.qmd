@@ -63,12 +63,51 @@ tm_shape(poligono) +
 
 Inicializamos GEE, transformamos el polígono sf a un objeto earth engine y estamos listos para comenzar la descarga!
 
-```{r eval=FALSE}
-#ee_Initialize()
+```{r,eval=FALSE}
+ee_Initialize()
 poligono_ee <- sf_as_ee(poligono)
 ```
 
-# Descarga de los datos climaticos desde ERA5 Land a traves de GEE 
+# Descarga de los datos climaticos desde ERA5 Land a traves de GEE
+
+Ejemplo con un solo dato
+
+```{r}
+point_to_extract <- df_sf[1,]
+startDate <-point_to_extract$fechacorta
+endDate <- point_to_extract$fechacorta + days(1)
+
+eras_re <-   ee$ImageCollection("ECMWF/ERA5_LAND/DAILY_RAW")$
+    filter(ee$Filter$date(startDate,endDate))$
+    select('total_precipitation', 
+           'temperature_2m',
+           'dewpoint_temperature_2m',
+           'u_component_of_wind_10m',
+           'v_component_of_wind_10m',
+           'total_evaporation')$
+    filterBounds(poligono_ee)$
+    reduce(ee$Reducer$sum())
+```
+
+```{r}
+
+data_point_extracted <-
+    ee_extract(x = eras_re, y = point_to_extract, sf = TRUE, scale = 1000)
+
+
+colnames(data_point_extracted) <-
+  gsub('X[0-9]{6}_',
+       '',
+       colnames(data_point_extracted),
+       fixed = FALSE,
+       perl = TRUE)
+```
+
+```{r}
+data_point_extracted
+```
+
+## Sistematización de la descarga
 
 Llamamos las funciones de descarga
 
