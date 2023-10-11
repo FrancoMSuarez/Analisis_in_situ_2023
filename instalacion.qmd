@@ -52,7 +52,7 @@ Aqui, luego de unos minutos , pedirá aceptar los cambios, para esto escribimos 
 Una vez reiniciada establecemos el directorio al ambiente de rgee en la computadora
 
 ```{r,eval=FALSE}
-reticulate::use_python('C:/Users/.../python.exe', required = TRUE)
+reticulate::use_python('C:/Users/franm/.conda/envs/rgee/python.exe', required = TRUE)
 reticulate::py_config()
 ```
 
