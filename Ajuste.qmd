@@ -10,7 +10,7 @@ editor_options:
 ---
 
 ::: justify
-Vamos hacer dos modelos, un random forest y una regresion logistica, para ello vamos a usar las variables que fueron seleccionadas por el metodo BORUTA:  
+Vamos hacer dos modelos, un random forest y una regresión logística, para ello vamos a usar las variables que fueron seleccionadas por el método BORUTA:
 
 -   Viento_M3
 
@@ -18,7 +18,7 @@ Vamos hacer dos modelos, un random forest y una regresion logistica, para ello v
 
 -   Precipitacion_S3
 
-Primero vamos a particionar la base de datos en set de entrenamiento y set de testeo para controlar la capacidad de clasificacion de nuestros modelos.
+Primero vamos a particionar la base de datos en set de entrenamiento y set de testeo para controlar la capacidad de clasificación de nuestros modelos.
 
 ```{r warning=FALSE, message=FALSE}
 # install.packages('caret')
@@ -34,7 +34,7 @@ datos$Prevalencia <- factor(datos$Prevalencia,
 
 set.seed(123)
 entrenar <- createDataPartition(datos$Prevalencia,
-                                p = 0.8, 
+                                p = 0.8, #### 
                                 list = F)
 
 set_entrenamiento <- datos[entrenar,]
@@ -50,7 +50,7 @@ proporciones <- data.frame("Set" = c("Entrenamiento","Validacion"),
                            sum(set_test$Prevalencia == "P")/nrow(set_test)),
            "Negativos" = c(sum(set_entrenamiento$Prevalencia == "N")/nrow(set_entrenamiento),
                            sum(set_test$Prevalencia == "N")/nrow(set_test)))
-knitr::kable(proporciones)
+knitr::kable(proporciones) 
 ```
 
 Definimos el control del entrenamiento para los modelos:
@@ -83,6 +83,9 @@ rf <- train(Prevalencia ~Viento_M3+Punto.rocio_M3+Precipitacion_S3,
                   tuneGrid = rfgrid,
                   trControl = control_entrenamiento)
 
+#mean(rf$resample$AUC)
+#mean(rf$resample$Accuracy)
+#mean(rf$resample$Kappa)
 ```
 
 El área media bajo la curva ROC de este modelo fue: `r mean(rf$resample$AUC)`
@@ -90,8 +93,6 @@ El área media bajo la curva ROC de este modelo fue: `r mean(rf$resample$AUC)`
 La precisión media de este modelo fue: `r mean(rf$resample$Accuracy)`
 
 El índice Kappa medio de este modelo fue: `r mean(rf$resample$Kappa)`
-
-
 
 Podemos comparar la precisión media del modelo en el set de entrenamiento y en el set de testeo.
 
@@ -102,15 +103,16 @@ SensRF <- MLmetrics::Sensitivity(set_test$Prevalencia,predict(rf,set_test), posi
 EspRF <- MLmetrics::Specificity(set_test$Prevalencia,predict(rf,set_test), positive = "P")
 AUCRF <- pROC::auc(as.numeric(set_test$Prevalencia),as.numeric(predict(rf,set_test)))
 
+#round(mean(rf$resample$Accuracy),2)
+# Testeo
 ```
 
 La precisión media del set de entrenamiento fue: `r round(mean(rf$resample$Accuracy),2)`, y la precisión en el set de testeo fue: `r Testeo`
 :::
 
-# Regresion Logistica
+# Regresión Logística
 
 ::: justify
-
 ```{r warning=FALSE, message=FALSE}
 set.seed(123)
 
@@ -120,6 +122,10 @@ rlg <- train(Prevalencia ~Viento_M3+Punto.rocio_M3+Precipitacion_S3,
                   family = "binomial",
                   metric = "AUC",  
                   trControl = control_entrenamiento)
+
+#mean(rlg$resample$AUC)
+#mean(rlg$resample$Accuracy)
+#mean(rlg$resample$Kappa)
 ```
 
 El área media bajo la curva ROC de este modelo fue: `r mean(rlg$resample$AUC)`.
@@ -137,6 +143,8 @@ SensRL <- MLmetrics::Sensitivity(set_test$Prevalencia,predict(rlg,set_test), pos
 EspRL <- MLmetrics::Specificity(set_test$Prevalencia,predict(rlg,set_test), positive = "P")
 AUCRL <- pROC::auc(as.numeric(set_test$Prevalencia),as.numeric(predict(rlg,set_test)))
 
+#round(mean(rlg$resample$Accuracy),2)
+#TesteoRL
 ```
 
 La precisión media del set de entrenamiento fue: `r round(mean(rlg$resample$Accuracy),2)`, y la precisión en el set de testeo fue: `r TesteoRL`

@@ -18,11 +18,11 @@ En la era de la información, el acceso a datos satelitales de alta resolución 
 
 Además, la capacidad de cómputo disponible en la actualidad ha abierto nuevas posibilidades en el análisis de datos satelitales. Esta alta capacidad de computo nos permite procesar grandes volúmenes de información, podemos obtener información más detallada y actualizada. Esto ha impulsado avances significativos en la predicción de fenómenos naturales, la gestión y planificación de recursos naturales.
 
-A lo largo de este análisis, exploraremos en detalle el acceso y la descarga de datos climáticos disponibles en la plataforma Google Earth Engine mediante su conexión con R. Abordaremos además algunas técnicas de selección de variables  y el posterior ajuste de modelos predictivos.
+A lo largo de este análisis, exploraremos en detalle el acceso y la descarga de datos climáticos disponibles en la plataforma Google Earth Engine mediante su conexión con R. Abordaremos además algunas técnicas de selección de variables y el posterior ajuste de modelos predictivos.
 
 # Contenidos
 
-1.Tutorial para instalar el paquete `rgee`.
+1\.Tutorial para instalar el paquete `rgee`.
 
 2\. Descarga de variables climáticas.
 

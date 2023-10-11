@@ -14,14 +14,13 @@ library(tmap)
 library(rgee)
 ```
 
-## Preprocesamiento
+# Preprocesamiento
 
 ```{r}
 df <- readxl::read_xlsx('datos/Datos.a.usar.xlsx')
 df$Lat <- df$Lat *-1 ## multiplicamos por -1
 df$Long <- df$Long *-1
 ```
-
 
 ## Trabajamos con las variables temporales
 
@@ -55,44 +54,42 @@ Generamos un polígono para delimitar el área de descarga de los datos
 
 ```{r}
 poligono <-  st_convex_hull(st_buffer(st_combine(df_sf),
-                                      units::as_units(4000,'m')))
+                                      units::as_units(40000,'m')))
 tm_shape(poligono) +
   tm_polygons(alpha = 0)  +
   tm_shape(df_sf) +
   tm_dots()
 ```
 
-Inicializamos GEE, transformamos el poligono sf a un objeto earth engine y estamos listos para comenzar la descarga!
-
+Inicializamos GEE, transformamos el polígono sf a un objeto earth engine y estamos listos para comenzar la descarga!
 
 ```{r}
 ee_Initialize()
 poligono_ee <- sf_as_ee(poligono)
 ```
 
-## Descarga de los datos
+# Descarga de los datos climaticos desde ERA5 Land a traves de GEE 
 
 Llamamos las funciones de descarga
 
 ```{r}
-source('src/cambio_de_unidades2.R') ## funcion que nos permite pasar de kelvins a Celsius
-source('src/XClimVar2.R') # Contie la fucion de descarga 
-
+source('src/cambio_de_unidades2.R') ## función que nos permite pasar de kelvins a Celsius
+source('src/XClimVar2.R') # Contiene la función de descarga 
 ```
 
 La función de descarga necesita :
 
--   dataframe con la columna geom, es decir haberlo transformado a un dataframe sf.
+-   `dataframe` con la columna geom, es decir haber transformado un `dataframe` a un objeto `sf`.
 
--   la columna tiempo, contiene las fechas estas pueden estar en string, no necesariamente en type date.
+-   la columna tiempo contiene las fechas, estas pueden estar en `string`, no necesariamente en tipo `Date`.
 
--   pol , es el polígono generado con los puntos que se encuentran en el dataset. poigon_ee.
+-   pol, es el polígono generado con los puntos de muestreo. `poligono_ee`.
 
--   climaticvar , recibe como input un vector con las variables a descargar estas pueden ser :
+-   climaticvar recibe como entrada un vector con las variables a descargar, estas pueden ser :
 
-c('pp_sum','pp_mean','t_mean','t_sum','te_mean','te_sum','dp','wind','hr') mientras mayor sea el numero de variables mas tiempo tomara la extracción
+c('pp_sum','pp_mean','t_mean','t_sum','te_mean','te_sum','dp','wind','hr') mientras mayor sea el número de variables mas tiempo tomará la extracción
 
-Estas tres variables reciben como input TRUE por default son FALSE, esto es para calcular los tiempos en días ,meses o años.
+Estas tres variables reciben como entrada un valor lógico (`TRUE` o `FALSE`), esto indica como extraer los valores, si en días, meses o años.
 
 -   Daily(boolean)
 
@@ -100,9 +97,11 @@ Estas tres variables reciben como input TRUE por default son FALSE, esto es para
 
 -   Yearly(boolean)
 
--   p_length: es el largo del periodo total para la descarga de variables(numérica)
+El periodo de descarga es determinado por:
 
--   step: es cada cuanto se toma las variables(numérica)
+-   p_length: es el largo del periodo total para la descarga de variables (numérica)
+
+-   step: es cada cuanto se toman las variables (numérica)
 
 ### 
 
