@@ -19,7 +19,7 @@ website:
       - href: descarga.qmd
         text: Descarga 
       - href: Seleccion de variables.qmd
-        text: Seleccíon
+        text: Selección
       - href: Ajuste.qmd
         text: Ajuste
       
