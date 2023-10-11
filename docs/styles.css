@@ -1,6 +1,18 @@
 /* css styles */
 .navbar-logo {
-    max-height: 50px;!important
+    max-height: 80px;
     width: auto;
-    padding-right: 4px;
+    /*padding-right: 4px;*/
 }
+
+.title{text-align: center;}
+
+.level1{text-align: justify;}
+
+.text{text-align: justify;}
+
+{css, echo = FALSE}
+.justify {
+  text-align: justify !important
+}
+

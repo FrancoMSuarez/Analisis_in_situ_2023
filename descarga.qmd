@@ -63,8 +63,8 @@ tm_shape(poligono) +
 
 Inicializamos GEE, transformamos el polígono sf a un objeto earth engine y estamos listos para comenzar la descarga!
 
-```{r}
-ee_Initialize()
+```{r eval=FALSE}
+#ee_Initialize()
 poligono_ee <- sf_as_ee(poligono)
 ```
 
