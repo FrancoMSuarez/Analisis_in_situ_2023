@@ -114,10 +114,6 @@ colnames(data_point_extracted) <-
        perl = TRUE)
 ```
 
-```{r eval = FALSE}
-knitr::kable(data_point_extracted)
-```
-
 ## Sistematización de la descarga
 
 Llamamos las funciones de descarga
